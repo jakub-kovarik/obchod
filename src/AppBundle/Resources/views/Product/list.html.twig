@@ -1,0 +1,9 @@
+{% block title %}<h1>Products - list</h1>{% endblock %}
+
+{% block body %}
+
+    {% for product in products %}
+        {{ product.name }}<br>
+    {% endfor %}
+
+{% endblock %}
