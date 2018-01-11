@@ -1,9 +1,17 @@
-{% block title %}<h1>Products - list</h1>{% endblock %}
+{% block title %}
+
+    <h1>Products - list</h1>
+
+{% endblock %}
 
 {% block body %}
 
+<ul>
     {% for product in products %}
-        {{ product.name }}<br>
+        <li><a href={{ path('product_show', { 'productId': product.id }) }}>{{ product.name }}</a></li>
     {% endfor %}
+</ul>
+
+<a href={{ path('product_add') }}>Add new product</a>
 
 {% endblock %}

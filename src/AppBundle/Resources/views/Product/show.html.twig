@@ -1,0 +1,16 @@
+{% block title %}
+
+    <h1>Product - show: {{ product.name }}</h1>
+
+{% endblock %}
+
+{% block body %}
+
+<ul>
+    <li>ID: <a href={{ path('product_edit', { 'productId': product.id }) }}>{{ product.id }}</a></li>
+    <li>category: <a href={{ path('category_show', { 'slug': product.category.slug }) }}>{{ product.category }}</a></li>
+    <li>price: {{ product.price }}</li>
+    <li>description: {{ product.description }}</li>
+</ul>
+
+{% endblock %}

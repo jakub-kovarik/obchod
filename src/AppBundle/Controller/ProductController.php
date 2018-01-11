@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function listAction()
     {
         $repository = $this->getDoctrine()->getRepository(Product::class);
-        $products = $repository->findAll();
+        $products   = $repository->findAll();
 
         return $this->render('@App/Product/list.html.twig', array(
             'products' => $products,
@@ -27,7 +27,20 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/products/add")
+     * @Route("/products/{productId}", name="product_show", requirements={"productId"="\d+"})
+     */
+    public function showAction($productId)
+    {
+        $repository = $this->getDoctrine()->getRepository(Product::class);
+        $product    = $repository->findOneById($productId);
+
+        return $this->render('@App/Product/show.html.twig', array(
+            'product' => $product,
+        ));
+    }
+
+    /**
+     * @Route("/products/add", name="product_add")
      */
     public function addAction(Request $request)
     {
@@ -53,31 +66,39 @@ class ProductController extends Controller
     }
 
     /**
-     * @Route("/products/{productId}/edit")
+     * @Route("/products/{productId}/edit", name="product_edit")
      */
     public function editAction(Request $request, $productId)
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(Product::class)->findOneById($productId);
         if (!$product)
-            throw $this->createNotFoundException('No product found for id '.$productId);
+        {
+            return new Response('No product found for id '.$productId);
+        }
 
         $form = $this->createForm(ProductForm::class, $product);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
+        if ($form->isSubmitted())
         {
-            $product = $form->getData();
+            if ($form->isValid())
+            {
+                $product = $form->getData();
 
-            $em->persist($product);
-            $em->flush();
+                $em->persist($product);
+                $em->flush();
 
-            return new Response('Updated product with id '.$product->getId());
+                return new Response('Updated product with id '.$product->getId());
+            }
         }
         else
+        {
             $form->setData($product);
+        }
 
-        return $this->render('@App/Product/add.html.twig', array(
+        return $this->render('@App/Product/edit.html.twig', array(
+            'product_id' => $productId,
             'form' => $form->createView(),
         ));
     }
