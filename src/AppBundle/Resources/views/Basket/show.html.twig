@@ -1,0 +1,30 @@
+{% block title %}
+
+    <h1>Basket - show: {{ login }}</h1>
+
+{% endblock %}
+
+{% block body %}
+
+    {% if basket %}
+
+        <table>
+            <tr>
+                <th>product ID</th>
+                <th>count</th>
+            </tr>
+            {% for productId, count in basket %}
+                <tr>
+                    <td>{{ productId }}</td>
+                    <td>{{ count }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+    {% else %}
+
+        Basket is empty.
+
+    {% endif %}
+
+{% endblock %}
