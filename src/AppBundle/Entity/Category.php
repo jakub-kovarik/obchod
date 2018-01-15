@@ -125,4 +125,3 @@ class Category
         return $this->getName();
     }
 }
-

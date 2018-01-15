@@ -1,6 +1,6 @@
 {% block title %}
 
-    <h1>Basket - show: {{ login }}</h1>
+    <h1>Basket - show</h1>
 
 {% endblock %}
 
@@ -10,13 +10,11 @@
 
         <table>
             <tr>
-                <th>product ID</th>
-                <th>count</th>
+                <th>product name</th>
             </tr>
-            {% for productId, count in basket %}
+            {% for product in basket %}
                 <tr>
-                    <td>{{ productId }}</td>
-                    <td>{{ count }}</td>
+                    <td>{{ product.name }}</td>
                 </tr>
             {% endfor %}
         </table>
@@ -26,5 +24,7 @@
         Basket is empty.
 
     {% endif %}
+
+    <a href={{ path('basket_remove_items') }}>Remove items</a>
 
 {% endblock %}

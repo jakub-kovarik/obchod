@@ -11,40 +11,38 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Entity\Product;
+use AppBundle\Basket;
 
 class BasketController extends Controller
 {
+    protected $basket;
+
+    public function __construct(Basket $basket)
+    {
+        $this->basket = $basket;
+    }
+
     /**
      * @Route("/basket", name="basket_show")
      */
-    public function showAction(SessionInterface $session)
+    public function showAction()
     {
-        $login = $session->get('login');
-        if (!$login)
-        {
-            return $this->forward('AppBundle\Controller\LoginController::loginAction');
-        }
-
-        $basket = $session->get('basket');
-
         return $this->render('@App/Basket/show.html.twig', array(
-            'basket' => $basket,
-            'login' => $login,
+            'basket' => $this->basket->getItems(),
         ));
     }
 
     /**
      * @Route("/basket/add", name="basket_add")
      */
-    public function addAction(Request $request, SessionInterface $session)
+    public function addAction(Request $request)
     {
         $repository = $this->getDoctrine()->getRepository(Product::class);
         $products   = $repository->findAll();
 
-        $productFormChoices = array();
-        foreach ($products as $product)
-        {
-            array_push($productFormChoices, array($product->getName() => $product->getId()));
+        $productFormChoices = [];
+        foreach ($products as $product) {
+            $productFormChoices[$product->getName()] = $product->getId();
         }
 
         $form = $this->createFormBuilder()
@@ -57,20 +55,20 @@ class BasketController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
             $data = $form->getData();
-            $productId = $data['product'];
-
-            $basket = $session->get('basket');
-            if (!$basket)
-            {
-                $basket = array();
-            }
-            $basket[$productId] = (array_key_exists($productId, $basket)) ? $basket[$productId] + 1 : 1;
-
-            $session->set('basket', $basket);
+            $this->basket->addItem($repository->findOneById($data['product']));
         }
 
         return $this->render('@App/Basket/add.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+     /**
+     * @Route("/basket/remove", name="basket_remove_items")
+     */
+    public function removeAction(Request $request, SessionInterface $session)
+    {
+        $this->basket->removeItems();
+        return $this->redirectToRoute('basket_show');
     }
 }
