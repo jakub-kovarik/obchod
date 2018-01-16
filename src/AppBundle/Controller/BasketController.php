@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Entity\Product;
-use AppBundle\Basket;
+use AppBundle\Util\Basket;
 
 class BasketController extends Controller
 {
