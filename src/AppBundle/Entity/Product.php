@@ -1,9 +1,15 @@
 <?php
 
+//..............................................................................
+
 namespace AppBundle\Entity;
+
+//..............................................................................
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+
+//..............................................................................
 
 /**
  * Product
@@ -52,6 +58,8 @@ class Product
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      */
     private $category;
+
+    //..........................................................................
 
     /**
      * Set id
@@ -167,3 +175,5 @@ class Product
         $this->category = $category;
     }
 }
+
+//..............................................................................

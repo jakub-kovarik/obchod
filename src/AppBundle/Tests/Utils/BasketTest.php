@@ -17,7 +17,9 @@ use PHPUnit\Framework\TestCase;
 
 class BasketTest extends TestCase
 {
-    // test for getting one item from the basket
+    /**
+     * Test - getting one item from the basket.
+     */
     public function testGetItem()
     {
         // create basket
@@ -41,7 +43,9 @@ class BasketTest extends TestCase
         }
     }
 
-    // test for adding items to the basket
+    /**
+     * Test - adding items to the basket.
+     */
     public function testAddItem()
     {
         // create basket
@@ -64,7 +68,9 @@ class BasketTest extends TestCase
         $this->assertEquals($input, $output);
     }
 
-    // test for removing items from the basket
+    /**
+     * Test - removing items from the basket.
+     */
     public function testRemoveItems()
     {
         // create basket
@@ -90,7 +96,9 @@ class BasketTest extends TestCase
         $this->assertEquals(0, count($basket->getItems()));
     }
 
-    // test for removing item from the basket
+    /**
+     * Test - removing item from the basket.
+     */
     public function testRemoveItem()
     {
         // create basket
@@ -121,7 +129,9 @@ class BasketTest extends TestCase
 
     //..........................................................................
 
-    // create basket
+    /**
+     *  Create empty basket.
+     */
     private function createBasket()
     {
         // create session for this test
@@ -131,7 +141,9 @@ class BasketTest extends TestCase
         return new Basket($session);
     }
 
-    // prepare data used as an input for testing
+    /**
+     * Prepare data used as an input for testing.
+     */
     private function prepareInput()
     {
         // create input test data

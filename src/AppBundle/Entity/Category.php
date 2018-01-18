@@ -1,10 +1,16 @@
 <?php
 
+//..............................................................................
+
 namespace AppBundle\Entity;
+
+//..............................................................................
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+
+//..............................................................................
 
 /**
  * Category
@@ -43,6 +49,8 @@ class Category
      * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
      */
     private $products;
+
+    //..........................................................................
 
     /**
      * Constructor
@@ -125,3 +133,5 @@ class Category
         return $this->getName();
     }
 }
+
+//..............................................................................
